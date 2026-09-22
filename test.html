@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Champions — prueba local</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="mock/mockdb.js"></script>
+<script>
+  // Semilla mínima para poder recorrer los flujos sin publicar el artifact.
+  (function seed() {
+    const db = window.__mockDb;
+    const now = new Date().toISOString();
+    const users = [
+      { id: 'u_admin', name: 'Francisco', pin: '1234', role: 'admin', active: true },
+      { id: 'u_gerente', name: 'Ana', pin: '1234', role: 'gerente', active: true },
+      { id: 'u_super', name: 'Marta', pin: '1234', role: 'supervisor', active: true },
+      { id: 'u_cajero', name: 'Luis', pin: '1234', role: 'cajero', active: true },
+      { id: 'u_mesero', name: 'Pepe', pin: '1234', role: 'mesero', active: true },
+    ];
+    users.forEach(u => db.collection('users').doc(u.id).set(u));
+
+    const products = [
+      { id: 'p_corona', name: 'Corona', category: 'cervezas', saleUnit: 'pieza', price: 45, costPerBaseUnit: 20, stock: 120, lowStockThreshold: 24, favorite: true, sellable: true, active: true },
+      { id: 'p_indio', name: 'Indio', category: 'cervezas', saleUnit: 'pieza', price: 40, costPerBaseUnit: 15, stock: 8, lowStockThreshold: 24, favorite: false, sellable: true, active: true },
+      { id: 'p_tequila', name: 'Tequila José Cuervo', category: 'destilados', saleUnit: 'ml', price: 0, costPerBaseUnit: 0.56, stock: 7500, lowStockThreshold: 750, bottleSizeMl: 750, favorite: false, sellable: false, active: true },
+      { id: 'p_whisky', name: 'Whisky Buchanan\'s', category: 'destilados', saleUnit: 'ml', price: 0, costPerBaseUnit: 1.1, stock: 700, lowStockThreshold: 700, bottleSizeMl: 700, favorite: false, sellable: false, active: true },
+      { id: 'p_vodka', name: 'Vodka Absolut', category: 'destilados', saleUnit: 'ml', price: 0, costPerBaseUnit: 0.5, stock: 750, lowStockThreshold: 700, bottleSizeMl: 750, favorite: false, sellable: false, active: true },
+      { id: 'p_refresco_lata', name: 'Refresco de toronja (lata)', category: 'refrescos', saleUnit: 'pieza', price: 30, costPerBaseUnit: 10, stock: 60, lowStockThreshold: 12, favorite: false, sellable: true, active: true },
+      { id: 'p_refresco_garrafa', name: 'Refresco de toronja (garrafa)', category: 'refrescos', saleUnit: 'ml', price: 0, costPerBaseUnit: 0.04, stock: 6000, lowStockThreshold: 1000, bottleSizeMl: 3000, favorite: false, sellable: false, active: true },
+      { id: 'p_agua', name: 'Agua mineral', category: 'agua', saleUnit: 'pieza', price: 25, costPerBaseUnit: 8, stock: 40, lowStockThreshold: 12, favorite: false, sellable: true, active: true },
+      { id: 'p_limon', name: 'Limón', category: 'otros', saleUnit: 'pieza', price: 0, costPerBaseUnit: 2, stock: 200, lowStockThreshold: 20, favorite: false, sellable: false, active: true },
+      { id: 'p_hielo', name: 'Hielo (porción)', category: 'otros', saleUnit: 'pieza', price: 0, costPerBaseUnit: 3, stock: 300, lowStockThreshold: 30, favorite: false, sellable: false, active: true },
+    ];
+    products.forEach(p => db.collection('products').doc(p.id).set(p));
+
+    const recipes = [
+      { id: 'r_paloma', name: 'Paloma', category: 'preparados', price: 70, favorite: true, active: true,
+        ingredients: [{ productId: 'p_tequila', qty: 50 }, { productId: 'p_refresco_garrafa', qty: 150 }, { productId: 'p_limon', qty: 1 }, { productId: 'p_hielo', qty: 1 }] },
+      { id: 'r_margarita', name: 'Margarita', category: 'cocteles', price: 90, favorite: true, active: true,
+        ingredients: [{ productId: 'p_tequila', qty: 60 }, { productId: 'p_limon', qty: 2 }, { productId: 'p_hielo', qty: 1 }] },
+      { id: 'r_shot_tequila', name: 'Shot de tequila', category: 'shots', price: 55, favorite: true, active: true,
+        ingredients: [{ productId: 'p_tequila', qty: 30 }] },
+    ];
+    recipes.forEach(r => db.collection('recipes').doc(r.id).set(r));
+  })();
+</script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
